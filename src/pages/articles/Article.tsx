@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-
+import socket from "../../shared/socketClient";
 import { useState, useEffect, useRef } from "react";
 import axiosConfig from "../../shared/axiosConfig";
 import { FaSpinner } from "react-icons/fa";
@@ -23,9 +23,7 @@ type FormDataType = {
   notes: string;
 };
 
-import io from "socket.io-client";
 import BackButton from "../../components/buttons/BackButton";
-const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 const Article = () => {
   const navigate = useNavigate();
@@ -55,9 +53,7 @@ const Article = () => {
     imagePreview: null,
     notes: "",
   });
-  const socket = io(apiBaseUrl, {
-    transports: ["websocket"],
-  });
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageScale] = useState(1);
@@ -65,9 +61,7 @@ const Article = () => {
   const [imageOffsetY] = useState(0);
 
   useEffect(() => {
-    const socket = io(apiBaseUrl, {
-      transports: ["websocket"],
-    });
+    socket.connect();
     articleFindById();
 
     return () => {
@@ -76,11 +70,14 @@ const Article = () => {
   }, [id]);
 
   useEffect(() => {
+    socket.connect();
+
+    articleFindById();
+
     return () => {
       if (socket.connected) {
         socket.emit("updateAvailable", id);
-      } else {
-        console.error("Socket is not connected");
+        socket.disconnect();
       }
     };
   }, [id]);
@@ -102,11 +99,10 @@ const Article = () => {
 
         paths.forEach((path) => {
           ctx.beginPath();
-          for (let i = 0; i < path.length; i++) {
-            const { x, y } = path[i];
-            if (i === 0) ctx.moveTo(x, y);
+          path.forEach(({ x, y }, index) => {
+            if (index === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
-          }
+          });
           ctx.stroke();
         });
       };
@@ -135,6 +131,7 @@ const Article = () => {
       const data = response.data.data;
       setPrenotes_id(data.prenoteId);
       setFormData({
+        ...formData,
         name: data.name || "",
         location: data.location || "",
         order_qty: data.order_qty || 0,
@@ -149,8 +146,6 @@ const Article = () => {
         done: data.done || false,
         notes: data.notes || "",
         image_url: data.image_url || "",
-        file: null,
-        imagePreview: null,
       });
     } catch (error) {
       console.error("Error fetching article:", error);
@@ -205,20 +200,12 @@ const Article = () => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, checked } = e.target as HTMLInputElement;
 
-    if (type === "checkbox") {
-      const { checked } = e.target as HTMLInputElement;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: checked,
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -254,25 +241,28 @@ const Article = () => {
     ctx.moveTo(adjustedX, adjustedY);
   };
 
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  const draw = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
+    if (!isDrawing || !canvasRef.current) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     const adjustedX = (x - imageOffsetX) / imageScale;
     const adjustedY = (y - imageOffsetY) / imageScale;
 
-    setCurrentPath((prev) => [...prev, { x: adjustedX, y: adjustedY }]);
-
     ctx.lineTo(adjustedX, adjustedY);
     ctx.stroke();
+
+    setCurrentPath((prev) => [...prev, { x: adjustedX, y: adjustedY }]);
   };
 
   const stopDrawing = () => {

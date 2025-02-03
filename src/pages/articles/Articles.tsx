@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../components/buttons/BackButton";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ArticlesList from "../../components/ArticlesList";
-import io from "socket.io-client";
+import socket from "../../shared/socketClient";
 
 const Articles = () => {
   const { id } = useParams();
@@ -13,11 +13,9 @@ const Articles = () => {
   const navigation = useNavigate();
 
   const handleClick = (id: number) => {
-    console.log(`chamou socket ${id}`);
-    const socket = io(import.meta.env.VITE_API_URL, {
-      transports: ["websocket"],
-    });
+    socket.connect();
     socket.emit("updateInProgress", id);
+    socket.disconnect();
   };
 
   const back = () => {
