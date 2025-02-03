@@ -5,6 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   preview: {
-    allowedHosts: ["prenotes-web-todo-production.up.railway.app"], // Adiciona o host do Railway
+    allowedHosts: ["prenotes-web.up.railway.app"], // Adiciona o host do Railway
   },
 });
