@@ -6,10 +6,10 @@
   --color-cardGreen: #157a3a;
   --color-cardOrange: #fdd9c4;
   --color-tableDegrad: #0058a3;
-  --color-fileButton: #f0f2f5;
-  --color-fileButtonHover: #111111;
+  --color-fileButton: #FFFFF;
+  --color-fileButtonHover: #f0f2f5;
   --color-uploadButton: #FFFFF;
-  --color-uploadButtonHover: #111111;
+  --color-uploadButtonHover: #f0f2f5;
 }
 
 body {

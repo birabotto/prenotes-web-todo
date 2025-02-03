@@ -16,14 +16,11 @@ const NavBar = () => {
 
   return (
     <div className="flex flex-col items-center bg-gray-50 w-full">
-      <nav className="hidden lg:flex w-full h-16 bg-menu text-menuText items-center justify-center shadow-md">
+      <nav className="hidden lg:flex w-full h-16 bg-menu text-menuText  items-center justify-center shadow-md">
         <ul className="flex space-x-10">
           {navLinks.map(({ href, label }) => (
             <li key={href}>
-              <NavLink
-                to={href}
-                className="text-lg font-medium hover:underline"
-              >
+              <NavLink to={href} className="text-lg font-bold hover:underline">
                 {label}
               </NavLink>
             </li>
