@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@theme {
+  --color-menuBlack: #111111;
+  --color-cardGreen: #157a3a;
+  --color-cardOrange: #fdd9c4;
+  --color-buttonGray: #dddddd;
+  --color-buttonGrayHover: #cccccc;
+  --color-buttonBlue: #0158a3;
+  --color-buttonStarted: #ffdb00;
+  --color-tableDegrad: #0058a3;
+}
