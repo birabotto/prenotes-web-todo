@@ -33,7 +33,9 @@ const PrenotesList: React.FC<PrenotesListProps> = ({ prenotes }) => {
               <p className="text-sm text-gray-600">
                 {dateFormat(note.createdAt)}
               </p>
-              <p className="text-sm text-gray-800">{note.departament}</p>
+              <p className="text-sm text-gray-800">
+                {note.departament} {note.donePercentage}%
+              </p>
             </div>
           </div>
         ))
