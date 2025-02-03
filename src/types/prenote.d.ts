@@ -4,5 +4,5 @@ export interface Prenote {
   totalArticles: number;
   createdAt: string;
   departament: string;
-  donePercentage: string;
+  donePercentage: number;
 }

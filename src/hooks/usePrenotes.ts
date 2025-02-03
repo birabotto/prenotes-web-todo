@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosConfig from "../shared/axiosConfig";
 import showToast from "../utils/showToast";
-
-interface Prenote {
-  id: number;
-  doneCount: number;
-  totalArticles: number;
-  createdAt: string;
-  departament: string;
-}
+import { Prenote } from "../types/prenote";
 
 export const usePrenotes = () => {
   const [prenotes, setPrenotes] = useState<Prenote[]>([]);
