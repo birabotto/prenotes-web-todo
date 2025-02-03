@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import S3 from "./pages/s3/S3";
+
 import Articles from "./pages/articles/Articles";
 import Article from "./pages/articles/Article";
 import NavBar from "./components/Navbar";
+import GoodsFlow from "./pages/gf/GoodsFlow";
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<S3 />} />
             <Route path="s3" element={<S3 />} />
+            <Route path="gf" element={<GoodsFlow />} />
 
             <Route path="articles/prenote/:id" element={<Articles />} />
             <Route path="article/:id" element={<Article />} />

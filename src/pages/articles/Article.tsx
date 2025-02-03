@@ -26,6 +26,7 @@ type FormDataType = {
 
 const Article = () => {
   const socket = useSocket();
+
   const navigate = useNavigate();
   const [prenotes_id, setPrenotes_id] = useState("");
   const { id } = useParams();
@@ -35,6 +36,7 @@ const Article = () => {
   const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>(
     []
   );
+
   const [formData, setFormData] = useState<FormDataType>({
     name: "",
     location: "",
@@ -74,10 +76,8 @@ const Article = () => {
     articleFindById();
 
     return () => {
-      if (socket.connected) {
-        socket.emit("updateAvailable", id);
-        socket.disconnect();
-      }
+      socket.emit("updateAvailable", id);
+      socket.disconnect();
     };
   }, [id, socket]);
 
