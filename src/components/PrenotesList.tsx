@@ -1,12 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import dateFormat from "../utils/dateFormat";
-interface Prenote {
-  id: number;
-  doneCount: number;
-  totalArticles: number;
-  createdAt: string;
-  departament: string;
-}
+
+import { Prenote } from "../types/prenote";
 
 interface PrenotesListProps {
   prenotes: Prenote[];
