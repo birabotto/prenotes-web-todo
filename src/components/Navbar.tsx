@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router";
 import { useState } from "react";
 
 const NavBar = () => {
@@ -21,9 +21,12 @@ const NavBar = () => {
         <ul className="flex space-x-10">
           {navLinks.map(({ href, label }) => (
             <li key={href}>
-              <Link to={href} className="text-lg font-medium hover:underline">
+              <NavLink
+                to={href}
+                className="text-lg font-medium hover:underline"
+              >
                 {label}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -42,13 +45,13 @@ const NavBar = () => {
             <ul className="space-y-6 text-center">
               {navLinks.map(({ href, label }) => (
                 <li key={href}>
-                  <Link
+                  <NavLink
                     to={href}
                     onClick={toggleMenu}
                     className="text-2xl font-bold hover:underline"
                   >
                     {label}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
