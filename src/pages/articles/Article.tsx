@@ -523,7 +523,7 @@ const Article = () => {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="flex flex-wrap gap-4 mb-4">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -534,9 +534,7 @@ const Article = () => {
               />
               <span className="ml-2 text-xs sm:text-sm text-gray-700">MS</span>
             </label>
-          </div>
 
-          <div className="mb-4">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -547,9 +545,7 @@ const Article = () => {
               />
               <span className="ml-2 text-xs sm:text-sm text-gray-700">BTS</span>
             </label>
-          </div>
 
-          <div className="mb-4">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"

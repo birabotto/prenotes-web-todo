@@ -16,7 +16,7 @@ const NavBar = () => {
 
   return (
     <div className="flex flex-col items-center bg-gray-50 w-full">
-      <nav className="hidden lg:flex w-full h-16 bg-menu text-black items-center justify-center shadow-md">
+      <nav className="hidden lg:flex w-full h-16 bg-menu text-menuText items-center justify-center shadow-md">
         <ul className="flex space-x-10">
           {navLinks.map(({ href, label }) => (
             <li key={href}>

@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @theme {
-  --color-menu: #d9d9d9;
+  --color-menu: #0058a3;
+  --color-menuText: #d6bf00;
   --color-cardGreen: #157a3a;
   --color-cardOrange: #fdd9c4;
   --color-tableDegrad: #0058a3;
-  --color-fileButton: #0158a3;
-  --color-fileButtonHover: #0278c9;
-  --color-uploadButton: #ffda00;
-  --color-uploadButtonHover: #ffc700;
+  --color-fileButton: #f0f2f5;
+  --color-fileButtonHover: #111111;
+  --color-uploadButton: #FFFFF;
+  --color-uploadButtonHover: #111111;
 }
