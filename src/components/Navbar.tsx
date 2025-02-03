@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+
 const NavBar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -30,7 +31,7 @@ const NavBar = () => {
 
       <button
         onClick={toggleMenu}
-        className="lg:hidden fixed left-4 top-4 bg-menu text-menuText px-4 py-2 rounded-lg shadow-lg"
+        className="lg:hidden fixed right-4 top-4 mt-10 bg-menu text-menuText px-4 py-2 rounded-lg shadow-lg"
       >
         {isMenuOpen ? "Close" : "Menu"}
       </button>
