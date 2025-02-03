@@ -13,7 +13,9 @@ function App() {
         <div className="w-full max-w-[1280px] bg-white p-4 sm:p-6 rounded-lg shadow-md">
           <Routes>
             <Route path="/" element={<S3 />} />
-            <Route path="/articles" element={<Articles />} />
+            <Route path="s3" element={<S3 />} />
+
+            <Route path="articles" element={<Articles />} />
           </Routes>
         </div>
       </div>
