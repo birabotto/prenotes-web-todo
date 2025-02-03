@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import { useState } from "react";
-
+import { AiOutlineClose } from "react-icons/ai";
 const NavBar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -33,13 +33,20 @@ const NavBar = () => {
 
       <button
         onClick={toggleMenu}
-        className="lg:hidden fixed left-4 top-4 bg-menu text-black px-4 py-2 rounded-lg shadow-lg"
+        className="lg:hidden fixed left-4 top-4 bg-menu text-menuText px-4 py-2 rounded-lg shadow-lg"
       >
         {isMenuOpen ? "Close" : "Menu"}
       </button>
 
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 text-white flex flex-col items-center justify-center z-40 lg:hidden">
+        <div className="fixed inset-0 bg-menu bg-opacity-90 text-menuText flex flex-col items-center justify-center z-40 lg:hidden">
+          <button
+            onClick={toggleMenu}
+            className="absolute top-4 right-4 text-menuText text-3xl"
+          >
+            <AiOutlineClose />
+          </button>
+
           <nav>
             <ul className="space-y-6 text-center">
               {navLinks.map(({ href, label }) => (
