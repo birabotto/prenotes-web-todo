@@ -6,6 +6,7 @@ import Article from "./pages/articles/Article";
 import NavBar from "./components/Navbar";
 import GoodsFlow from "./pages/gf/GoodsFlow";
 import Charts from "./pages/charts/Charts";
+import ResetDataBase from "./pages/ResetDataBase";
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
                     <Route path="s3" element={<S3 />} />
                     <Route path="gf" element={<GoodsFlow />} />
                     <Route path="charts" element={<Charts />} />
+                    <Route path="delete" element={<ResetDataBase />} />
                     <Route path="articles/prenote/:id" element={<Articles />} />
                     <Route path="article/:id" element={<Article />} />
                   </Routes>

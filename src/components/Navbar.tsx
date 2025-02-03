@@ -10,7 +10,6 @@ const NavBar = () => {
 
   const navLinks = [
     { href: "/s3", label: "S3" },
-    { href: "/delete", label: "Delete" },
     { href: "/gf", label: "Goods Flow" },
     { href: "/charts", label: "Charts" },
   ];
