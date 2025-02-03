@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="login" element={<Login />} />
 
         <Route
           path="/*"
@@ -23,7 +23,6 @@ function App() {
               <div className="w-full flex flex-col items-center bg-white mt-12 sm:mt-0">
                 <div className="w-full max-w-[1280px] bg-white p-4 sm:p-6 rounded-lg shadow-md">
                   <Routes>
-                    <Route path="/" element={<S3 />} />
                     <Route path="s3" element={<S3 />} />
                     <Route path="gf" element={<GoodsFlow />} />
                     <Route path="articles/prenote/:id" element={<Articles />} />
