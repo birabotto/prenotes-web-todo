@@ -1,5 +1,5 @@
 import { Articles } from "../types/articles";
-
+import { RxCrossCircled } from "react-icons/rx";
 interface CardProps {
   articles: Articles[];
   seeArticle: (id: number) => void;
@@ -30,9 +30,20 @@ export default function Card({ articles, seeArticle, handleClick }: CardProps) {
             }}
           >
             <div className="mb-2">
-              <p className="text-sm text-gray-600 font-semibold">
-                {article.name}
-                {article.status === "in_progress" && "(In Progress)"}
+              <p className="text-sm text-gray-600 font-semibold flex justify-between items-center">
+                <span className="flex-1 truncate">{article.name}</span>
+                <span className="flex items-center gap-2 ml-4">
+                  {article.location?.trim() ? (
+                    <span className="text-gray-500">{article.location}</span>
+                  ) : (
+                    <span>
+                      <RxCrossCircled color="red" />
+                    </span>
+                  )}
+                  {article.status === "in_progress" && (
+                    <span className="text-yellow-500">(In Progress)</span>
+                  )}
+                </span>
               </p>
             </div>
           </div>
