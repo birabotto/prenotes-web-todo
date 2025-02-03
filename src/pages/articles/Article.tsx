@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import socket from "../../shared/socketClient";
+import useSocket from "../../hooks/useSocket";
 import { useState, useEffect, useRef } from "react";
 import axiosConfig from "../../shared/axiosConfig";
 import { FaSpinner } from "react-icons/fa";
+import BackButton from "../../components/buttons/BackButton";
 
 type FormDataType = {
   name: string;
@@ -23,9 +24,8 @@ type FormDataType = {
   notes: string;
 };
 
-import BackButton from "../../components/buttons/BackButton";
-
 const Article = () => {
+  const socket = useSocket();
   const navigate = useNavigate();
   const [prenotes_id, setPrenotes_id] = useState("");
   const { id } = useParams();
@@ -61,16 +61,15 @@ const Article = () => {
   const [imageOffsetY] = useState(0);
 
   useEffect(() => {
-    socket.connect();
-    articleFindById();
+    if (!socket) {
+      console.error("Socket instance is not available.");
+      return;
+    }
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [id]);
-
-  useEffect(() => {
-    socket.connect();
+    if (!socket.connected) {
+      console.warn("Socket is not connected. Attempting to connect...");
+      socket.connect();
+    }
 
     articleFindById();
 
@@ -80,7 +79,7 @@ const Article = () => {
         socket.disconnect();
       }
     };
-  }, [id]);
+  }, [id, socket]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -99,10 +98,11 @@ const Article = () => {
 
         paths.forEach((path) => {
           ctx.beginPath();
-          path.forEach(({ x, y }, index) => {
-            if (index === 0) ctx.moveTo(x, y);
+          for (let i = 0; i < path.length; i++) {
+            const { x, y } = path[i];
+            if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
-          });
+          }
           ctx.stroke();
         });
       };
@@ -110,18 +110,27 @@ const Article = () => {
   }, [formData.imagePreview, paths]);
 
   const back = () => {
-    if (id && prenotes_id) {
-      if (socket.connected) {
-        console.log("Emitting updateAvailable with id:", id);
-        socket.emit("updateAvailable", id);
-      } else {
-        console.error("Socket is not connected");
-      }
+    const parsedId = Number(id);
+    const parsedPrenotesId = Number(prenotes_id);
 
-      navigate(`/articles/prenote/${prenotes_id}`);
-    } else {
-      console.error("Missing id or prenotes_id for back action");
+    if (!socket) {
+      console.error("Socket is not connected. Attempting to connect...");
+      return;
     }
+
+    if (!parsedId || !parsedPrenotesId) {
+      console.error("Missing or invalid id or prenotes_id for back action");
+      return;
+    }
+
+    if (!socket.connected) {
+      console.warn("Socket is not connected. Attempting to connect...");
+      socket.connect();
+    }
+
+    socket.emit("updateAvailable", parsedId);
+
+    navigate(`/articles/prenote/${parsedPrenotesId}`);
   };
 
   const articleFindById = async () => {
@@ -131,7 +140,6 @@ const Article = () => {
       const data = response.data.data;
       setPrenotes_id(data.prenoteId);
       setFormData({
-        ...formData,
         name: data.name || "",
         location: data.location || "",
         order_qty: data.order_qty || 0,
@@ -146,6 +154,8 @@ const Article = () => {
         done: data.done || false,
         notes: data.notes || "",
         image_url: data.image_url || "",
+        file: null,
+        imagePreview: null,
       });
     } catch (error) {
       console.error("Error fetching article:", error);
@@ -183,6 +193,11 @@ const Article = () => {
         },
       });
 
+      if (!socket) {
+        console.error("Socket is not connected. Attempting to connect...");
+        return;
+      }
+
       if (socket.connected) {
         socket.emit("updateAvailable", id);
       } else {
@@ -200,12 +215,20 @@ const Article = () => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
+    const { name, value, type } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    if (type === "checkbox") {
+      const { checked } = e.target as HTMLInputElement;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,28 +264,25 @@ const Article = () => {
     ctx.moveTo(adjustedX, adjustedY);
   };
 
-  const draw = (
-    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
-  ) => {
-    if (!isDrawing || !canvasRef.current) return;
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const ctx = canvasRef.current.getContext("2d");
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const rect = canvasRef.current.getBoundingClientRect();
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const adjustedX = (x - imageOffsetX) / imageScale;
     const adjustedY = (y - imageOffsetY) / imageScale;
 
+    setCurrentPath((prev) => [...prev, { x: adjustedX, y: adjustedY }]);
+
     ctx.lineTo(adjustedX, adjustedY);
     ctx.stroke();
-
-    setCurrentPath((prev) => [...prev, { x: adjustedX, y: adjustedY }]);
   };
 
   const stopDrawing = () => {

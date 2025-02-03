@@ -5,17 +5,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../components/buttons/BackButton";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ArticlesList from "../../components/ArticlesList";
-import socket from "../../shared/socketClient";
+import useSocket from "../../hooks/useSocket";
 
 const Articles = () => {
+  const socket = useSocket();
   const { id } = useParams();
   const { articles, isLoading } = useArticles(id);
   const navigation = useNavigate();
 
-  const handleClick = (id: number) => {
-    socket.connect();
-    socket.emit("updateInProgress", id);
-    socket.disconnect();
+  const handleClick = (articleId: number) => {
+    if (!socket) return; // Garante que socket não é null
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    socket.emit("updateInProgress", articleId);
   };
 
   const back = () => {
