@@ -1,4 +1,3 @@
-// components/ArticlesList.tsx
 import Card from "../components/Card";
 import { Articles } from "../types/articles";
 
