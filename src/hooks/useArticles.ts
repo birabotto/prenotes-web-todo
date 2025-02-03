@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosConfig from "../shared/axiosConfig";
 import io from "socket.io-client";
-
-interface ArticleType {
-  done: boolean;
-  id: number;
-  name: string;
-  status: string;
-}
+import { Articles } from "../types/articles";
 
 const apiBaseUrl = import.meta.env.VITE_API_URL;
 const socket = io(apiBaseUrl, {
@@ -15,7 +9,7 @@ const socket = io(apiBaseUrl, {
 });
 
 export const useArticles = (id: string | undefined) => {
-  const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [articles, setArticles] = useState<Articles[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
