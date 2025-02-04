@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SaveButton from "../../components/buttons/SaveButton";
 export default function Login() {
   const navigate = useNavigate();
-  function handleLogin() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setIsLoading(true);
     navigate("/s3");
   }
   return (
@@ -36,13 +41,12 @@ export default function Login() {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <button
-            type="submit"
-            onClick={handleLogin}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Login
-          </button>
+          <SaveButton
+            handleSubmit={handleLogin}
+            isUploading={isLoading}
+            name="Login"
+            nameLoading="Logging"
+          />
         </form>
       </div>
     </div>
