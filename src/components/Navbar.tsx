@@ -31,7 +31,7 @@ const NavBar = () => {
 
       <button
         onClick={toggleMenu}
-        className="lg:hidden fixed right-4 top-4  bg-menu text-menuText px-4 py-2 rounded-lg shadow-lg"
+        className="lg:hidden fixed right-4 top-4 font-bold  bg-menu text-menuText px-4 py-2 rounded-lg shadow-lg"
       >
         {isMenuOpen ? "Close" : "Menu"}
       </button>
