@@ -12,16 +12,6 @@
   --color-uploadButtonHover: #f0f2f5;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #ffffff;
 }
