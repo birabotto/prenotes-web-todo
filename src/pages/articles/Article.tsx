@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import axiosConfig from "../../shared/axiosConfig";
 import { FaSpinner } from "react-icons/fa";
 import BackButton from "../../components/buttons/BackButton";
+import SaveButton from "../../components/buttons/SaveButton";
 
 type FormDataType = {
   name: string;
@@ -57,7 +58,7 @@ const Article = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [imageScale] = useState(1);
   const [imageOffsetX] = useState(0);
   const [imageOffsetY] = useState(0);
@@ -186,7 +187,7 @@ const Article = () => {
     formDataToSend.append("notes", formData.notes);
 
     try {
-      setIsSubmitting(true);
+      setIsLoading(true);
       await axiosConfig.put(`v1/api/articles/${id}`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -208,7 +209,7 @@ const Article = () => {
     } catch (error) {
       console.error("Error submitting the form:", error);
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
@@ -640,20 +641,12 @@ const Article = () => {
           </div>
 
           <div className="flex justify-between mt-4">
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg"
-              disabled={isLoading || isSubmitting}
-            >
-              {isSubmitting ? (
-                <div className="flex justify-center items-center">
-                  <FaSpinner className="animate-spin text-white mr-2" />
-                  Submitting...
-                </div>
-              ) : (
-                "Save"
-              )}
-            </button>
+            <SaveButton
+              handleSubmit={handleSubmit}
+              isUploading={isLoading}
+              name="Save"
+              nameLoading="Saving..."
+            />
           </div>
         </form>
       )}

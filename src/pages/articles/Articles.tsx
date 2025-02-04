@@ -1,5 +1,3 @@
-// pages/articles/Articles.tsx
-
 import { useArticles } from "../../hooks/useArticles";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../components/buttons/BackButton";
@@ -14,7 +12,7 @@ const Articles = () => {
   const navigation = useNavigate();
 
   const handleClick = (articleId: number) => {
-    if (!socket) return; // Garante que socket não é null
+    if (!socket) return;
 
     if (!socket.connected) {
       socket.connect();

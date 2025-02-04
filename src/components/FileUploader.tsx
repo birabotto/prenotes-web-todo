@@ -1,6 +1,7 @@
 import { useState } from "react";
 import showToast from "../utils/showToast";
 import axiosConfig from "../shared/axiosConfig";
+import SaveButton from "./buttons/SaveButton";
 
 interface FileUploaderProps {
   onUploadSuccess: () => void;
@@ -59,13 +60,12 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onUploadSuccess }) => {
         className="hidden z-10"
         onChange={handleFileChange}
       />
-      <button
-        onClick={handleUpload}
-        disabled={isUploading}
-        className="w-full px-6 py-3 bg-uploadButton text-black hover:text-black font-bold border rounded-lg shadow-md hover:bg-uploadButtonHover"
-      >
-        {isUploading ? "Uploading..." : "Upload"}
-      </button>
+      <SaveButton
+        handleSubmit={handleUpload}
+        isUploading={isUploading}
+        name="Upload"
+        nameLoading="Uploading..."
+      />
     </div>
   );
 };
