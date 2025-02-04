@@ -46,10 +46,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onUploadSuccess }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 mt-2">
       <label
         htmlFor="file-upload"
-        className="flex items-center justify-center w-full px-6 py-3 mb-2 bg-fileButton text-black  hover:text-black font-bold  cursor-pointer shadow-md hover:bg-fileButtonHover focus:outline-none focus:ring-2 focus:ring-blue-300"
+        className="flex items-center justify-center w-full px-6 py-3 mb-4 bg-fileButton border text-black  rounded-lg hover:text-black font-bold  cursor-pointer shadow-md hover:bg-fileButtonHover focus:outline-none focus:ring-2 focus:ring-blue-300"
       >
         {selectedFile ? selectedFile.name : "Choose file"}
       </label>

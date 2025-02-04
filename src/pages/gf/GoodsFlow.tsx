@@ -143,7 +143,7 @@ export default function GoodsFlow() {
         </div>
       )}
 
-      <div className="relative mb-6">
+      <div className="relative mb-8 mt-2">
         <input
           type="text" // Alterado para "text" para evitar problemas com o tipo "number"
           name="item"
@@ -178,7 +178,7 @@ export default function GoodsFlow() {
             </label>
             <div
               id="article"
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md w-full bg-gray-50 text-gray-900"
+              className="mt-1 px-3 py-2 border  border-gray-300 rounded-md w-full bg-gray-50 text-gray-900"
             >
               {article.name}
             </div>

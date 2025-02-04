@@ -13,7 +13,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
   handleClick,
 }) => {
   return (
-    <div className="fade-in">
+    <div className="fade-in mt-4">
       <Card
         articles={articles}
         seeArticle={seeArticle}
