@@ -1,7 +1,7 @@
-import { FaBarcode, FaCheckSquare, FaTimesCircle } from "react-icons/fa";
-import { useRef, useState, useEffect } from "react";
+import { FaCheckSquare, FaTimesCircle } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import axiosConfig from "../../shared/axiosConfig";
-import { BrowserMultiFormatReader } from "@zxing/library";
+// import { BrowserMultiFormatReader } from "@zxing/library";
 import ToastProvider from "../../components/ToastProvider";
 import showToast from "../../utils/showToast";
 type GfTypes = {
@@ -19,11 +19,11 @@ type GfTypes = {
 export default function GoodsFlow() {
   const [item, setItem] = useState<string | null>(null);
   const [article, setArticle] = useState<GfTypes | null>(null);
-  const [scanning, setScanning] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [scanner] = useState<BrowserMultiFormatReader>(
-    new BrowserMultiFormatReader()
-  );
+  // const [scanning, setScanning] = useState<boolean>(false);
+  // const videoRef = useRef<HTMLVideoElement | null>(null);
+  // const [scanner] = useState<BrowserMultiFormatReader>(
+  //   new BrowserMultiFormatReader()
+  // );
 
   const [toastData, setToastData] = useState<{
     message: string;
@@ -53,53 +53,53 @@ export default function GoodsFlow() {
     }
   }
 
-  const handleScanToggle = () => {
-    setScanning((prevScanning) => !prevScanning);
-  };
+  // const handleScanToggle = () => {
+  //   setScanning((prevScanning) => !prevScanning);
+  // };
 
-  const handleBarcodeScan = (result: any) => {
-    if (result?.text) {
-      const stringFormat8digits = result.text.slice(0, 8);
-      setItem(stringFormat8digits);
-      handleSearch(stringFormat8digits);
-    }
-  };
+  // const handleBarcodeScan = (result: any) => {
+  //   if (result?.text) {
+  //     const stringFormat8digits = result.text.slice(0, 8);
+  //     setItem(stringFormat8digits);
+  //     handleSearch(stringFormat8digits);
+  //   }
+  // };
 
-  const startScanner = () => {
-    if (videoRef.current) {
-      scanner
-        .decodeFromVideoDevice(null, videoRef.current, (result, error) => {
-          if (result) {
-            handleBarcodeScan(result);
-          }
-          if (error) {
-            console.error("Error:", error);
-          }
-        })
-        .catch((err) => {
-          console.error("Error starting scanner:", err);
-        });
-    }
-  };
+  // const startScanner = () => {
+  //   if (videoRef.current) {
+  //     scanner
+  //       .decodeFromVideoDevice(null, videoRef.current, (result, error) => {
+  //         if (result) {
+  //           handleBarcodeScan(result);
+  //         }
+  //         if (error) {
+  //           console.error("Error:", error);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error("Error starting scanner:", err);
+  //       });
+  //   }
+  // };
 
-  const stopScanner = () => {
-    scanner.reset();
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
-    }
-  };
+  // const stopScanner = () => {
+  //   scanner.reset();
+  //   if (videoRef.current) {
+  //     videoRef.current.srcObject = null;
+  //   }
+  // };
 
-  useEffect(() => {
-    if (scanning) {
-      startScanner();
-    } else {
-      stopScanner();
-    }
+  // useEffect(() => {
+  //   if (scanning) {
+  //     startScanner();
+  //   } else {
+  //     stopScanner();
+  //   }
 
-    return () => {
-      stopScanner();
-    };
-  }, [scanning]);
+  //   return () => {
+  //     stopScanner();
+  //   };
+  // }, [scanning]);
 
   useEffect(() => {
     if (item && item.length === 8) {
@@ -110,7 +110,6 @@ export default function GoodsFlow() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
-    // Aceita apenas números
     if (/^\d*$/.test(inputValue)) {
       setItem(inputValue);
     }
@@ -118,7 +117,7 @@ export default function GoodsFlow() {
 
   return (
     <>
-      {scanning && (
+      {/* {scanning && (
         <div className="mb-6 relative flex justify-center">
           <video
             ref={videoRef}
@@ -141,23 +140,23 @@ export default function GoodsFlow() {
             }}
           />
         </div>
-      )}
+      )} */}
 
       <div className="relative mb-8 mt-2">
         <input
-          type="text" // Alterado para "text" para evitar problemas com o tipo "number"
+          type="text"
           name="item"
           value={item || ""}
           autoFocus
           placeholder="Article number..."
           onChange={handleInputChange}
-          maxLength={8} // Limita o input a 8 caracteres
+          maxLength={8}
           className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-500 px-4 py-3 pr-12"
         />
-        <FaBarcode
+        {/* <FaBarcode
           onClick={handleScanToggle}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-2xl text-blue-500"
-        />
+        /> */}
       </div>
 
       <button
