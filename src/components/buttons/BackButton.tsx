@@ -5,12 +5,11 @@ interface BackButtonProps {
 
 const BackButton = ({ back }: BackButtonProps) => {
   return (
-    <button
-      className="px-3 py-2 bg-menu text-menuText rounded-full shadow text-xs sm:text-sm cursor-pointer"
+    <FaArrowCircleLeft
+      size={20}
+      className="text-menu bg-menuText rounded-full"
       onClick={back}
-    >
-      <FaArrowCircleLeft />
-    </button>
+    />
   );
 };
 
