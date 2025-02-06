@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axiosConfig from "../shared/axiosConfig";
 import showToast from "../utils/showToast";
 import { Prenote } from "../types/prenote";
@@ -6,9 +6,12 @@ import { Prenote } from "../types/prenote";
 export const usePrenotes = () => {
   const [prenotes, setPrenotes] = useState<Prenote[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const hasFetched = useRef(false);
   useEffect(() => {
-    fetchPrenotes();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      fetchPrenotes();
+    }
   }, []);
 
   const fetchPrenotes = async () => {
@@ -19,6 +22,7 @@ export const usePrenotes = () => {
 
       if (response.data.data.length === 0) {
         showToast("No prenotes available.", "warning");
+        return;
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

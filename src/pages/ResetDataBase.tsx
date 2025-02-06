@@ -7,12 +7,16 @@ export default function ResetDataBase() {
   const navigation = useNavigate();
   useEffect(() => {
     deleteAll();
-    navigation("/s3");
   }, []);
 
   const deleteAll = async () => {
     await axiosConfig.get("/delete");
+    navigation("/s3");
   };
 
-  return <></>;
+  return (
+    <>
+      <p>Reset</p>
+    </>
+  );
 }

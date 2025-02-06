@@ -10,9 +10,10 @@ export default function S3() {
   return (
     <>
       {isLoading && <LoadingSpinner />}
-      <ToastProvider />
+
       <FileUploader onUploadSuccess={fetchPrenotes} />
       <PrenotesList prenotes={prenotes} />
+      <ToastProvider />
     </>
   );
 }
