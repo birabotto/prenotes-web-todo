@@ -7,7 +7,7 @@ const BackButton = ({ back }: BackButtonProps) => {
   return (
     <FaArrowCircleLeft
       size={20}
-      className="text-menu bg-menuText rounded-full"
+      className="text-menu bg-menuText rounded-full cursor:pointer"
       onClick={back}
     />
   );
