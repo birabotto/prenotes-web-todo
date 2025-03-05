@@ -31,6 +31,6 @@ export default defineConfig({
     }),
   ],
   preview: {
-    allowedHosts: ["prenotes-web.up.railway.app"],
+    allowedHosts: ["prenotes-web-stop.up.railway.app"],
   },
 });
