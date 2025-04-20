@@ -645,7 +645,7 @@ const Article = () => {
               handleSubmit={handleSubmit}
               isUploading={isLoading}
               name="Save"
-              nameLoading="Saving..."
+              nameLoading="Saving....."
             />
           </div>
         </form>
